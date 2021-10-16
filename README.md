@@ -1,6 +1,7 @@
 # Infrastructure Management using Terraform IAC on Google Cloud Platform to run a Python Flask App using a private MySQL instance database, using GitLab CI/CD pipeline to manage code for different environments
 
 This is a GitLab project which is uploaded here for reference. The link to the gitlab repo is- https://gitlab.com/rafatmunshi/secondassignment2
+This project uses the Hashicorp Language (HCL) for managing the infrastructure on GCP represented by the following diagrams-
 
 Network Diagram-
 ![](https://github.com/rafatmunshi/Infrastructure-Management-using-Terraform/raw/master/1.png)
