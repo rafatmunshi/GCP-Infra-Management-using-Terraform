@@ -1,0 +1,919 @@
+{
+  "version": 4,
+  "terraform_version": "0.13.5",
+  "serial": 20,
+  "lineage": "1d981a26-5462-670f-729d-8853708c733b",
+  "outputs": {
+    "db_instance_address": {
+      "value": "10.196.0.3",
+      "type": "string"
+    },
+    "db_instance_generated_user_password": {
+      "value": "e11fcde0c590f8a9",
+      "type": "string"
+    },
+    "db_instance_name": {
+      "value": "flaskapp-dev-db-bd005fd2",
+      "type": "string"
+    },
+    "db_instance_username": {
+      "value": "dbadmin",
+      "type": "string"
+    },
+    "nat_ip_address": {
+      "value": "35.202.98.26",
+      "type": "string"
+    },
+    "web-1-internal-ip": {
+      "value": "10.128.0.2",
+      "type": "string"
+    },
+    "web-1-name": {
+      "value": "flaskapp-dev-vm-1",
+      "type": "string"
+    },
+    "web-2-internal": {
+      "value": "10.128.0.2",
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "google_compute_address",
+      "name": "nat_ip",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "address": "35.202.98.26",
+            "address_type": "EXTERNAL",
+            "creation_timestamp": "2020-12-12T03:11:49.333-08:00",
+            "description": "",
+            "id": "projects/focus-mechanic-295618/regions/us-central1/addresses/flaskapp-dev-nat-ip",
+            "name": "flaskapp-dev-nat-ip",
+            "network_tier": "PREMIUM",
+            "project": "focus-mechanic-295618",
+            "purpose": "",
+            "region": "us-central1",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/regions/us-central1/addresses/flaskapp-dev-nat-ip",
+            "subnetwork": "",
+            "timeouts": null,
+            "users": []
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwfX0="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_backend_service",
+      "name": "backend_service",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_firewall",
+      "name": "allow-http",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "allow": [
+              {
+                "ports": [
+                  "80"
+                ],
+                "protocol": "tcp"
+              }
+            ],
+            "creation_timestamp": "2020-12-12T03:28:33.302-08:00",
+            "deny": [],
+            "description": "",
+            "destination_ranges": [],
+            "direction": "INGRESS",
+            "disabled": false,
+            "enable_logging": null,
+            "id": "projects/focus-mechanic-295618/global/firewalls/flaskapp-dev-fw-allow-http",
+            "log_config": [],
+            "name": "flaskapp-dev-fw-allow-http",
+            "network": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/global/networks/flaskapp-dev-vpc",
+            "priority": 1000,
+            "project": "focus-mechanic-295618",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/global/firewalls/flaskapp-dev-fw-allow-http",
+            "source_ranges": [
+              "0.0.0.0/0"
+            ],
+            "source_service_accounts": null,
+            "source_tags": null,
+            "target_service_accounts": null,
+            "target_tags": [
+              "http"
+            ],
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "google_compute_network.vpc"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_firewall",
+      "name": "allow-https",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "allow": [
+              {
+                "ports": [
+                  "443"
+                ],
+                "protocol": "tcp"
+              }
+            ],
+            "creation_timestamp": "2020-12-12T03:28:33.064-08:00",
+            "deny": [],
+            "description": "",
+            "destination_ranges": [],
+            "direction": "INGRESS",
+            "disabled": false,
+            "enable_logging": null,
+            "id": "projects/focus-mechanic-295618/global/firewalls/flaskapp-dev-fw-allow-https",
+            "log_config": [],
+            "name": "flaskapp-dev-fw-allow-https",
+            "network": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/global/networks/flaskapp-dev-vpc",
+            "priority": 1000,
+            "project": "focus-mechanic-295618",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/global/firewalls/flaskapp-dev-fw-allow-https",
+            "source_ranges": [
+              "0.0.0.0/0"
+            ],
+            "source_service_accounts": null,
+            "source_tags": null,
+            "target_service_accounts": null,
+            "target_tags": [
+              "https"
+            ],
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "google_compute_network.vpc"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_firewall",
+      "name": "allow-internal",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "allow": [
+              {
+                "ports": [
+                  "80"
+                ],
+                "protocol": "tcp"
+              },
+              {
+                "ports": [],
+                "protocol": "icmp"
+              }
+            ],
+            "creation_timestamp": "2020-12-12T03:28:32.804-08:00",
+            "deny": [],
+            "description": "",
+            "destination_ranges": [],
+            "direction": "INGRESS",
+            "disabled": false,
+            "enable_logging": null,
+            "id": "projects/focus-mechanic-295618/global/firewalls/flaskapp-dev-fw-allow-internal",
+            "log_config": [],
+            "name": "flaskapp-dev-fw-allow-internal",
+            "network": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/global/networks/flaskapp-dev-vpc",
+            "priority": 1000,
+            "project": "focus-mechanic-295618",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/global/firewalls/flaskapp-dev-fw-allow-internal",
+            "source_ranges": [
+              "10.128.0.0/20"
+            ],
+            "source_service_accounts": null,
+            "source_tags": null,
+            "target_service_accounts": null,
+            "target_tags": null,
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "google_compute_network.vpc"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_firewall",
+      "name": "allow-rdp",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "allow": [
+              {
+                "ports": [
+                  "3389"
+                ],
+                "protocol": "tcp"
+              }
+            ],
+            "creation_timestamp": "2020-12-12T03:28:33.354-08:00",
+            "deny": [],
+            "description": "",
+            "destination_ranges": [],
+            "direction": "INGRESS",
+            "disabled": false,
+            "enable_logging": null,
+            "id": "projects/focus-mechanic-295618/global/firewalls/flaskapp-dev-fw-allow-rdp",
+            "log_config": [],
+            "name": "flaskapp-dev-fw-allow-rdp",
+            "network": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/global/networks/flaskapp-dev-vpc",
+            "priority": 1000,
+            "project": "focus-mechanic-295618",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/global/firewalls/flaskapp-dev-fw-allow-rdp",
+            "source_ranges": [
+              "0.0.0.0/0"
+            ],
+            "source_service_accounts": null,
+            "source_tags": null,
+            "target_service_accounts": null,
+            "target_tags": [
+              "rdp"
+            ],
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "google_compute_network.vpc"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_firewall",
+      "name": "allow-ssh",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "allow": [
+              {
+                "ports": [
+                  "22"
+                ],
+                "protocol": "tcp"
+              }
+            ],
+            "creation_timestamp": "2020-12-12T03:28:33.487-08:00",
+            "deny": [],
+            "description": "",
+            "destination_ranges": [],
+            "direction": "INGRESS",
+            "disabled": false,
+            "enable_logging": null,
+            "id": "projects/focus-mechanic-295618/global/firewalls/flaskapp-dev-fw-allow-ssh",
+            "log_config": [],
+            "name": "flaskapp-dev-fw-allow-ssh",
+            "network": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/global/networks/flaskapp-dev-vpc",
+            "priority": 1000,
+            "project": "focus-mechanic-295618",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/global/firewalls/flaskapp-dev-fw-allow-ssh",
+            "source_ranges": [
+              "0.0.0.0/0"
+            ],
+            "source_service_accounts": null,
+            "source_tags": null,
+            "target_service_accounts": null,
+            "target_tags": [
+              "ssh"
+            ],
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "google_compute_network.vpc"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_global_address",
+      "name": "private_ip_address",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google-beta\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "address": "10.196.0.0",
+            "address_type": "INTERNAL",
+            "creation_timestamp": "2020-12-12T03:28:32.891-08:00",
+            "description": "",
+            "id": "projects/focus-mechanic-295618/global/addresses/flaskapp-dev-private-ip-address",
+            "ip_version": "",
+            "label_fingerprint": "42WmSpB8rSM=",
+            "labels": null,
+            "name": "flaskapp-dev-private-ip-address",
+            "network": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/global/networks/flaskapp-dev-vpc",
+            "prefix_length": 16,
+            "project": "focus-mechanic-295618",
+            "purpose": "VPC_PEERING",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/global/addresses/flaskapp-dev-private-ip-address",
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_network.vpc"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_global_forwarding_rule",
+      "name": "global_forwarding_rule",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_health_check",
+      "name": "healthcheck",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "check_interval_sec": 10,
+            "creation_timestamp": "2020-12-12T03:11:49.191-08:00",
+            "description": "",
+            "grpc_health_check": [],
+            "healthy_threshold": 2,
+            "http2_health_check": [],
+            "http_health_check": [
+              {
+                "host": "",
+                "port": 80,
+                "port_name": "",
+                "port_specification": "",
+                "proxy_header": "NONE",
+                "request_path": "/",
+                "response": ""
+              }
+            ],
+            "https_health_check": [],
+            "id": "projects/focus-mechanic-295618/global/healthChecks/flaskapp-dev-healthcheck",
+            "name": "flaskapp-dev-healthcheck",
+            "project": "focus-mechanic-295618",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/global/healthChecks/flaskapp-dev-healthcheck",
+            "ssl_health_check": [],
+            "tcp_health_check": [],
+            "timeout_sec": 10,
+            "timeouts": null,
+            "type": "HTTP",
+            "unhealthy_threshold": 2
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH19"
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_instance",
+      "name": "web_private_1",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 6,
+          "attributes": {
+            "allow_stopping_for_update": null,
+            "attached_disk": [],
+            "boot_disk": [
+              {
+                "auto_delete": true,
+                "device_name": "persistent-disk-0",
+                "disk_encryption_key_raw": "",
+                "disk_encryption_key_sha256": "",
+                "initialize_params": [
+                  {
+                    "image": "https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/ubuntu-1804-bionic-v20201211a",
+                    "labels": {},
+                    "size": 10,
+                    "type": "pd-standard"
+                  }
+                ],
+                "kms_key_self_link": "",
+                "mode": "READ_WRITE",
+                "source": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/zones/us-central1-b/disks/flaskapp-dev-vm-1"
+              }
+            ],
+            "can_ip_forward": false,
+            "cpu_platform": "Intel Haswell",
+            "current_status": "RUNNING",
+            "deletion_protection": false,
+            "description": "",
+            "desired_status": null,
+            "enable_display": false,
+            "guest_accelerator": [],
+            "hostname": "flaskapp-dev-vm1.test",
+            "id": "projects/focus-mechanic-295618/zones/us-central1-b/instances/flaskapp-dev-vm-1",
+            "instance_id": "8282117084091586453",
+            "label_fingerprint": "42WmSpB8rSM=",
+            "labels": null,
+            "machine_type": "f1-micro",
+            "metadata": null,
+            "metadata_fingerprint": "ViqQ-mWSzJ0=",
+            "metadata_startup_script": "sudo apt-get update; sudo apt-get install -yq build-essential python-pip rsync; pip install flask; sudo apt install mysql-client; sudo apt-get install python-dev default-libmysqlclient-dev libssl-dev; pip install --user flask-mysqldb",
+            "min_cpu_platform": "",
+            "name": "flaskapp-dev-vm-1",
+            "network_interface": [
+              {
+                "access_config": [],
+                "alias_ip_range": [],
+                "name": "nic0",
+                "network": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/global/networks/flaskapp-dev-vpc",
+                "network_ip": "10.128.0.2",
+                "subnetwork": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/regions/us-central1/subnetworks/flaskapp-dev-private-subnet-1",
+                "subnetwork_project": "focus-mechanic-295618"
+              }
+            ],
+            "project": "focus-mechanic-295618",
+            "resource_policies": null,
+            "scheduling": [
+              {
+                "automatic_restart": true,
+                "node_affinities": [],
+                "on_host_maintenance": "MIGRATE",
+                "preemptible": false
+              }
+            ],
+            "scratch_disk": [],
+            "self_link": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/zones/us-central1-b/instances/flaskapp-dev-vm-1",
+            "service_account": [],
+            "shielded_instance_config": [
+              {
+                "enable_integrity_monitoring": true,
+                "enable_secure_boot": false,
+                "enable_vtpm": true
+              }
+            ],
+            "tags": [
+              "http",
+              "ssh"
+            ],
+            "tags_fingerprint": "7XLBdwIeS7E=",
+            "timeouts": null,
+            "zone": "us-central1-b"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiNiJ9",
+          "dependencies": [
+            "google_compute_network.vpc",
+            "google_compute_subnetwork.private_subnet_1"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_instance",
+      "name": "web_private_2",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_instance_group",
+      "name": "web_private_group",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "status": "tainted",
+          "schema_version": 2,
+          "attributes": {
+            "description": "Web servers instance group",
+            "id": "projects/focus-mechanic-295618/zones/us-central1-b/instanceGroups/flaskapp-dev-vm-group",
+            "instances": [
+              " ",
+              "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/zones/us-central1-b/instances/flaskapp-dev-vm-1"
+            ],
+            "name": "flaskapp-dev-vm-group",
+            "named_port": [
+              {
+                "name": "http",
+                "port": 80
+              }
+            ],
+            "network": null,
+            "project": null,
+            "self_link": null,
+            "size": null,
+            "timeouts": null,
+            "zone": "us-central1-b"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozNjAwMDAwMDAwMDAsImRlbGV0ZSI6MzYwMDAwMDAwMDAwLCJ1cGRhdGUiOjM2MDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMiJ9",
+          "dependencies": [
+            "google_compute_instance.web_private_1",
+            "google_compute_instance.web_private_2",
+            "google_compute_network.vpc",
+            "google_compute_subnetwork.private_subnet_1"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_network",
+      "name": "vpc",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "auto_create_subnetworks": false,
+            "delete_default_routes_on_create": false,
+            "description": "",
+            "gateway_ipv4": "",
+            "id": "projects/focus-mechanic-295618/global/networks/flaskapp-dev-vpc",
+            "mtu": 0,
+            "name": "flaskapp-dev-vpc",
+            "project": "focus-mechanic-295618",
+            "routing_mode": "GLOBAL",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/global/networks/flaskapp-dev-vpc",
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH19"
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_router",
+      "name": "nat-router",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "bgp": [],
+            "creation_timestamp": "2020-12-12T03:28:32.984-08:00",
+            "description": "",
+            "id": "projects/focus-mechanic-295618/regions/us-central1/routers/flaskapp-dev-nat-router",
+            "name": "flaskapp-dev-nat-router",
+            "network": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/global/networks/flaskapp-dev-vpc",
+            "project": "focus-mechanic-295618",
+            "region": "us-central1",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/regions/us-central1/routers/flaskapp-dev-nat-router",
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_network.vpc"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_router_nat",
+      "name": "nat-gateway",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "drain_nat_ips": null,
+            "icmp_idle_timeout_sec": 30,
+            "id": "focus-mechanic-295618/us-central1/flaskapp-dev-nat-router/flaskapp-dev-nat-gateway",
+            "log_config": [],
+            "min_ports_per_vm": 0,
+            "name": "flaskapp-dev-nat-gateway",
+            "nat_ip_allocate_option": "MANUAL_ONLY",
+            "nat_ips": [
+              "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/regions/us-central1/addresses/flaskapp-dev-nat-ip"
+            ],
+            "project": "focus-mechanic-295618",
+            "region": null,
+            "router": "flaskapp-dev-nat-router",
+            "source_subnetwork_ip_ranges_to_nat": "ALL_SUBNETWORKS_ALL_IP_RANGES",
+            "subnetwork": [],
+            "tcp_established_idle_timeout_sec": 1200,
+            "tcp_transitory_idle_timeout_sec": 30,
+            "timeouts": null,
+            "udp_idle_timeout_sec": 30
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6NjAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_address.nat_ip",
+            "google_compute_network.vpc",
+            "google_compute_router.nat-router"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_subnetwork",
+      "name": "private_subnet_1",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google-beta\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "creation_timestamp": "2020-12-12T03:28:33.213-08:00",
+            "description": "",
+            "fingerprint": null,
+            "gateway_address": "10.128.0.1",
+            "id": "projects/focus-mechanic-295618/regions/us-central1/subnetworks/flaskapp-dev-private-subnet-1",
+            "ip_cidr_range": "10.128.0.0/20",
+            "log_config": [],
+            "name": "flaskapp-dev-private-subnet-1",
+            "network": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/global/networks/flaskapp-dev-vpc",
+            "private_ip_google_access": false,
+            "private_ipv6_google_access": "DISABLE_GOOGLE_ACCESS",
+            "project": "focus-mechanic-295618",
+            "purpose": "PRIVATE",
+            "region": "us-central1",
+            "role": "",
+            "secondary_ip_range": [],
+            "self_link": "https://www.googleapis.com/compute/v1/projects/focus-mechanic-295618/regions/us-central1/subnetworks/flaskapp-dev-private-subnet-1",
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozNjAwMDAwMDAwMDAsImRlbGV0ZSI6MzYwMDAwMDAwMDAwLCJ1cGRhdGUiOjM2MDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_network.vpc"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_target_http_proxy",
+      "name": "target_http_proxy",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_url_map",
+      "name": "url_map",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": []
+    },
+    {
+      "mode": "managed",
+      "type": "google_service_networking_connection",
+      "name": "private_vpc_connection",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google-beta\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "projects%2Ffocus-mechanic-295618%2Fglobal%2Fnetworks%2Fflaskapp-dev-vpc:servicenetworking.googleapis.com",
+            "network": "projects/focus-mechanic-295618/global/networks/flaskapp-dev-vpc",
+            "peering": "servicenetworking-googleapis-com",
+            "reserved_peering_ranges": [
+              "flaskapp-dev-private-ip-address"
+            ],
+            "service": "servicenetworking.googleapis.com",
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6NjAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_global_address.private_ip_address",
+            "google_compute_network.vpc"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_sql_database",
+      "name": "my_sql_db",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "charset": "utf8",
+            "collation": "utf8_general_ci",
+            "id": "projects/focus-mechanic-295618/instances/flaskapp-dev-db-bd005fd2/databases/todo",
+            "instance": "flaskapp-dev-db-bd005fd2",
+            "name": "todo",
+            "project": "focus-mechanic-295618",
+            "self_link": "https://sqladmin.googleapis.com/sql/v1beta4/projects/focus-mechanic-295618/instances/flaskapp-dev-db-bd005fd2/databases/todo",
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo5MDAwMDAwMDAwMDAsImRlbGV0ZSI6NjAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_global_address.private_ip_address",
+            "google_compute_network.vpc",
+            "google_service_networking_connection.private_vpc_connection",
+            "google_sql_database_instance.my_sql",
+            "random_id.instance_id"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_sql_database_instance",
+      "name": "my_sql",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "connection_name": "focus-mechanic-295618:us-central1:flaskapp-dev-db-bd005fd2",
+            "database_version": "MYSQL_5_7",
+            "deletion_protection": true,
+            "first_ip_address": "10.196.0.3",
+            "id": "flaskapp-dev-db-bd005fd2",
+            "ip_address": [
+              {
+                "ip_address": "10.196.0.3",
+                "time_to_retire": "",
+                "type": "PRIVATE"
+              }
+            ],
+            "master_instance_name": "",
+            "name": "flaskapp-dev-db-bd005fd2",
+            "private_ip_address": "10.196.0.3",
+            "project": "focus-mechanic-295618",
+            "public_ip_address": "",
+            "region": "us-central1",
+            "replica_configuration": [],
+            "root_password": null,
+            "self_link": "https://sqladmin.googleapis.com/sql/v1beta4/projects/focus-mechanic-295618/instances/flaskapp-dev-db-bd005fd2",
+            "server_ca_cert": [
+              {
+                "cert": "-----BEGIN CERTIFICATE-----\nMIIDfzCCAmegAwIBAgIBADANBgkqhkiG9w0BAQsFADB3MS0wKwYDVQQuEyRhMmQz\nODJjOS1hN2E4LTRhYmUtODc3OC0xNzY1Y2I4MzA2ZDUxIzAhBgNVBAMTGkdvb2ds\nZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUsIEluYzELMAkG\nA1UEBhMCVVMwHhcNMjAxMjEyMTEzMjQ3WhcNMzAxMjEwMTEzMzQ3WjB3MS0wKwYD\nVQQuEyRhMmQzODJjOS1hN2E4LTRhYmUtODc3OC0xNzY1Y2I4MzA2ZDUxIzAhBgNV\nBAMTGkdvb2dsZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUs\nIEluYzELMAkGA1UEBhMCVVMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB\nAQCFxjBeXdGzCqZ2AeFVL1uqBVhig8HB7KXlvx/AOSCvwG0yMyru0dBf24iKVpnM\nRdhBhFMmXGgTDLwmdOo8kTb3i//JMwOTNA3Exe0Vmuh6CpDMngLS87iAAF5hBOi+\n7puO6h05L8VW0GXUoE2yc79NT2npKvQo+sBCpjqzEJzSXAPX3ucxqYgbkKhqfTO3\n4Gmlx33TCc0LcDAwPNO3teaFJqxYFHistwstp+/WRT8g+aDJaJw9im7chKCfzEJJ\nOpucOsD/MgAovNGxONJvyBo9KWOaQn7Ck9B/hGniYFRv6pQTBJPYd0C4WN0gGTsO\n0YNjPrOhi7T3aOKC1G4XmSdbAgMBAAGjFjAUMBIGA1UdEwEB/wQIMAYBAf8CAQAw\nDQYJKoZIhvcNAQELBQADggEBAGtr33VKCJai4vuhY4H0I+lSkgpg2wVjDJ/ikFTA\ny3UbSdg83sKd5JU2Na6OlApIMveHx99ijQWV5nOY/SPiiqkRYqqLoIogwuQKpffF\nGWd5fCKDetECEnwmFfnycx6XNGBY2qZXcGITaLCk8HqWn9G9sIcnF1xS7/N2p0+k\nPdi2SPKWZu33UZ+uVye3HysPOK7/isi25wHQDhnBMKQCtD4FLMf3tVhhBAACQbiP\nErvBVMtlXETbFwi/flGouhPp9NkU5vl5xCeahiNzuWkaF9dAPNLXKcYJnZc03w5B\nAkMbbCoyUXZ/CD0aTNpK9c3O5Z51eVFWDcuSImphZo6u0L4=\n-----END CERTIFICATE-----",
+                "common_name": "C=US,O=Google\\, Inc,CN=Google Cloud SQL Server CA,dnQualifier=a2d382c9-a7a8-4abe-8778-1765cb8306d5",
+                "create_time": "2020-12-12T11:32:47.416Z",
+                "expiration_time": "2030-12-10T11:33:47.416Z",
+                "sha1_fingerprint": "2d603d53f8261dc88f00e06771e0d85c4ca48ba8"
+              }
+            ],
+            "service_account_email_address": "p908046633673-uasu0g@gcp-sa-cloud-sql.iam.gserviceaccount.com",
+            "settings": [
+              {
+                "activation_policy": "ALWAYS",
+                "authorized_gae_applications": null,
+                "availability_type": "",
+                "backup_configuration": [
+                  {
+                    "binary_log_enabled": true,
+                    "enabled": true,
+                    "location": "",
+                    "point_in_time_recovery_enabled": false,
+                    "start_time": "00:00"
+                  }
+                ],
+                "crash_safe_replication": false,
+                "database_flags": [
+                  {
+                    "name": "log_bin_trust_function_creators",
+                    "value": "on"
+                  }
+                ],
+                "disk_autoresize": true,
+                "disk_size": 10,
+                "disk_type": "PD_SSD",
+                "ip_configuration": [
+                  {
+                    "authorized_networks": [],
+                    "ipv4_enabled": false,
+                    "private_network": "projects/focus-mechanic-295618/global/networks/flaskapp-dev-vpc",
+                    "require_ssl": false
+                  }
+                ],
+                "location_preference": [
+                  {
+                    "follow_gae_application": "",
+                    "zone": "us-central1-b"
+                  }
+                ],
+                "maintenance_window": [
+                  {
+                    "day": 7,
+                    "hour": 3,
+                    "update_track": ""
+                  }
+                ],
+                "pricing_plan": "PER_USE",
+                "replication_type": "SYNCHRONOUS",
+                "tier": "db-f1-micro",
+                "user_labels": null,
+                "version": 1
+              }
+            ],
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_global_address.private_ip_address",
+            "google_compute_network.vpc",
+            "google_service_networking_connection.private_vpc_connection",
+            "random_id.instance_id"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_sql_user",
+      "name": "my-sql",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "deletion_policy": null,
+            "host": "%",
+            "id": "dbadmin/%/flaskapp-dev-db-bd005fd2",
+            "instance": "flaskapp-dev-db-bd005fd2",
+            "name": "dbadmin",
+            "password": "",
+            "project": "focus-mechanic-295618",
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6NjAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "google_compute_global_address.private_ip_address",
+            "google_compute_network.vpc",
+            "google_service_networking_connection.private_vpc_connection",
+            "google_sql_database_instance.my_sql",
+            "random_id.instance_id"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "random_id",
+      "name": "instance_id",
+      "provider": "provider[\"registry.terraform.io/hashicorp/random\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "b64_std": "vQBf0g==",
+            "b64_url": "vQBf0g",
+            "byte_length": 4,
+            "dec": "3170918354",
+            "hex": "bd005fd2",
+            "id": "vQBf0g",
+            "keepers": null,
+            "prefix": null
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "random_id",
+      "name": "user_password",
+      "provider": "provider[\"registry.terraform.io/hashicorp/random\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "b64_std": "4R/N4MWQ+Kk=",
+            "b64_url": "4R_N4MWQ-Kk",
+            "byte_length": 8,
+            "dec": "16221910748082796713",
+            "hex": "e11fcde0c590f8a9",
+            "id": "4R_N4MWQ-Kk",
+            "keepers": null,
+            "prefix": null
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    }
+  ]
+}

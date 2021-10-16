@@ -1,0 +1,67 @@
+include: 
+  - '.before-script-template.yml'
+  - template: Security/Secret-Detection.gitlab-ci.yml
+
+.secret-analyzer:
+  stage: validate
+
+image:
+  name: hashicorp/terraform:light
+  entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
+# Default output file for Terraform plan
+variables:
+  PLAN: plan.tfplan
+  JSON_PLAN_FILE: tfplan.json
+  TF_IN_AUTOMATION: "true"
+  
+
+stages:
+  - validate
+  - plan
+  - apply
+
+validate:
+  stage: validate
+  script:
+    - WORKSPACE_NAME="${CI_MERGE_REQUEST_TARGET_BRANCH_NAME:-$CI_COMMIT_REF_SLUG}"
+    - terraform validate
+
+merge review:
+  stage: plan
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+  environment:
+    # name: $CI_COMMIT_REF_NAME or
+    name: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+  script:
+    - echo $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+    - cd Terraform
+    - rm -f keyfile.json
+    - touch keyfile.json
+    - echo $key
+    - echo $key >> keyfile.json
+    - terraform plan -var-file="$CI_MERGE_REQUEST_TARGET_BRANCH_NAME/terraform.tfvars" -out=$PLAN
+  dependencies:
+    - validate
+
+apply:
+  stage: apply
+  script:
+    - terraform apply -var-file="$WORKSPACE_NAME/terraform.tfvars" -input=false $PLAN
+  dependencies:
+    - merge review
+  when: manual
+
+
+
+
+
+
+
+
+
+
+

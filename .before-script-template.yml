@@ -1,0 +1,6 @@
+default:
+  before_script:
+    - apk update
+    - apk add bash
+    - chmod a+x ./beforescript.sh
+    - ./beforescript.sh

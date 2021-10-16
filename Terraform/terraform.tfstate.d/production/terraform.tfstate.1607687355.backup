@@ -1,0 +1,1024 @@
+{
+  "version": 4,
+  "terraform_version": "0.13.5",
+  "serial": 30,
+  "lineage": "0cc54e7c-a9aa-d3b3-45ef-512c99b40449",
+  "outputs": {
+    "db_instance_address": {
+      "value": "10.30.0.3",
+      "type": "string"
+    },
+    "db_instance_generated_user_password": {
+      "value": "3c367eef7a111582",
+      "type": "string"
+    },
+    "db_instance_name": {
+      "value": "flaskapp-production-db-30b8f222",
+      "type": "string"
+    },
+    "db_instance_username": {
+      "value": "dbadmin",
+      "type": "string"
+    },
+    "load-balancer-ip-address": {
+      "value": "35.241.10.7",
+      "type": "string"
+    },
+    "nat_ip_address": {
+      "value": "104.154.72.12",
+      "type": "string"
+    },
+    "web-1-internal-ip": {
+      "value": "10.128.0.2",
+      "type": "string"
+    },
+    "web-1-name": {
+      "value": "flaskapp-production-vm-1",
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "google_compute_address",
+      "name": "nat_ip",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "address": "104.154.72.12",
+            "address_type": "EXTERNAL",
+            "creation_timestamp": "2020-12-11T01:21:25.396-08:00",
+            "description": "",
+            "id": "projects/coastal-bloom-277007/regions/us-central1/addresses/flaskapp-production-nat-ip",
+            "name": "flaskapp-production-nat-ip",
+            "network_tier": "PREMIUM",
+            "project": "coastal-bloom-277007",
+            "purpose": "",
+            "region": "us-central1",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/regions/us-central1/addresses/flaskapp-production-nat-ip",
+            "subnetwork": "",
+            "timeouts": null,
+            "users": [
+              "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/regions/us-central1/routers/flaskapp-production-nat-router"
+            ]
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwfX0="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_backend_service",
+      "name": "backend_service",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "affinity_cookie_ttl_sec": 0,
+            "backend": [
+              {
+                "balancing_mode": "RATE",
+                "capacity_scaler": 1,
+                "description": "",
+                "group": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/zones/us-central1-b/instanceGroups/flaskapp-production-vm-group",
+                "max_connections": 0,
+                "max_connections_per_endpoint": 0,
+                "max_connections_per_instance": 0,
+                "max_rate": 0,
+                "max_rate_per_endpoint": 0,
+                "max_rate_per_instance": 100,
+                "max_utilization": 0.8
+              }
+            ],
+            "cdn_policy": [],
+            "circuit_breakers": [],
+            "connection_draining_timeout_sec": 300,
+            "consistent_hash": [],
+            "creation_timestamp": "2020-12-11T01:22:31.609-08:00",
+            "custom_request_headers": [],
+            "custom_response_headers": [],
+            "description": "",
+            "enable_cdn": false,
+            "fingerprint": "ljgJIlXH0fM=",
+            "health_checks": [
+              "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/healthChecks/flaskapp-production-healthcheck"
+            ],
+            "iap": [],
+            "id": "projects/coastal-bloom-277007/global/backendServices/flaskapp-production-backend-service",
+            "load_balancing_scheme": "EXTERNAL",
+            "locality_lb_policy": "",
+            "log_config": [],
+            "name": "flaskapp-production-backend-service",
+            "outlier_detection": [],
+            "port_name": "http",
+            "project": "coastal-bloom-277007",
+            "protocol": "HTTP",
+            "security_policy": "",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/backendServices/flaskapp-production-backend-service",
+            "session_affinity": "NONE",
+            "timeout_sec": 30,
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "google_compute_health_check.healthcheck",
+            "google_compute_instance.web_private_1",
+            "google_compute_instance_group.web_private_group",
+            "google_compute_network.vpc",
+            "google_compute_subnetwork.private_subnet_1"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_firewall",
+      "name": "allow-http",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "allow": [
+              {
+                "ports": [
+                  "80"
+                ],
+                "protocol": "tcp"
+              }
+            ],
+            "creation_timestamp": "2020-12-11T01:21:48.266-08:00",
+            "deny": [],
+            "description": "",
+            "destination_ranges": [],
+            "direction": "INGRESS",
+            "disabled": false,
+            "enable_logging": null,
+            "id": "projects/coastal-bloom-277007/global/firewalls/flaskapp-production-fw-allow-http",
+            "log_config": [],
+            "name": "flaskapp-production-fw-allow-http",
+            "network": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/networks/flaskapp-production-vpc",
+            "priority": 1000,
+            "project": "coastal-bloom-277007",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/firewalls/flaskapp-production-fw-allow-http",
+            "source_ranges": [
+              "0.0.0.0/0"
+            ],
+            "source_service_accounts": [],
+            "source_tags": [],
+            "target_service_accounts": [],
+            "target_tags": [
+              "http"
+            ],
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "google_compute_network.vpc"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_firewall",
+      "name": "allow-https",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "allow": [
+              {
+                "ports": [
+                  "443"
+                ],
+                "protocol": "tcp"
+              }
+            ],
+            "creation_timestamp": "2020-12-11T01:21:48.235-08:00",
+            "deny": [],
+            "description": "",
+            "destination_ranges": [],
+            "direction": "INGRESS",
+            "disabled": false,
+            "enable_logging": null,
+            "id": "projects/coastal-bloom-277007/global/firewalls/flaskapp-production-fw-allow-https",
+            "log_config": [],
+            "name": "flaskapp-production-fw-allow-https",
+            "network": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/networks/flaskapp-production-vpc",
+            "priority": 1000,
+            "project": "coastal-bloom-277007",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/firewalls/flaskapp-production-fw-allow-https",
+            "source_ranges": [
+              "0.0.0.0/0"
+            ],
+            "source_service_accounts": [],
+            "source_tags": [],
+            "target_service_accounts": [],
+            "target_tags": [
+              "https"
+            ],
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "google_compute_network.vpc"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_firewall",
+      "name": "allow-internal",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "allow": [
+              {
+                "ports": [
+                  "80"
+                ],
+                "protocol": "tcp"
+              },
+              {
+                "ports": [],
+                "protocol": "icmp"
+              }
+            ],
+            "creation_timestamp": "2020-12-11T01:21:48.235-08:00",
+            "deny": [],
+            "description": "",
+            "destination_ranges": [],
+            "direction": "INGRESS",
+            "disabled": false,
+            "enable_logging": null,
+            "id": "projects/coastal-bloom-277007/global/firewalls/flaskapp-production-fw-allow-internal",
+            "log_config": [],
+            "name": "flaskapp-production-fw-allow-internal",
+            "network": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/networks/flaskapp-production-vpc",
+            "priority": 1000,
+            "project": "coastal-bloom-277007",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/firewalls/flaskapp-production-fw-allow-internal",
+            "source_ranges": [
+              "10.128.0.0/20"
+            ],
+            "source_service_accounts": [],
+            "source_tags": [],
+            "target_service_accounts": [],
+            "target_tags": [],
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "google_compute_network.vpc"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_firewall",
+      "name": "allow-rdp",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "allow": [
+              {
+                "ports": [
+                  "3389"
+                ],
+                "protocol": "tcp"
+              }
+            ],
+            "creation_timestamp": "2020-12-11T01:21:48.238-08:00",
+            "deny": [],
+            "description": "",
+            "destination_ranges": [],
+            "direction": "INGRESS",
+            "disabled": false,
+            "enable_logging": null,
+            "id": "projects/coastal-bloom-277007/global/firewalls/flaskapp-production-fw-allow-rdp",
+            "log_config": [],
+            "name": "flaskapp-production-fw-allow-rdp",
+            "network": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/networks/flaskapp-production-vpc",
+            "priority": 1000,
+            "project": "coastal-bloom-277007",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/firewalls/flaskapp-production-fw-allow-rdp",
+            "source_ranges": [
+              "0.0.0.0/0"
+            ],
+            "source_service_accounts": [],
+            "source_tags": [],
+            "target_service_accounts": [],
+            "target_tags": [
+              "rdp"
+            ],
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "google_compute_network.vpc"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_firewall",
+      "name": "allow-ssh",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "allow": [
+              {
+                "ports": [
+                  "22"
+                ],
+                "protocol": "tcp"
+              }
+            ],
+            "creation_timestamp": "2020-12-11T01:21:48.234-08:00",
+            "deny": [],
+            "description": "",
+            "destination_ranges": [],
+            "direction": "INGRESS",
+            "disabled": false,
+            "enable_logging": null,
+            "id": "projects/coastal-bloom-277007/global/firewalls/flaskapp-production-fw-allow-ssh",
+            "log_config": [],
+            "name": "flaskapp-production-fw-allow-ssh",
+            "network": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/networks/flaskapp-production-vpc",
+            "priority": 1000,
+            "project": "coastal-bloom-277007",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/firewalls/flaskapp-production-fw-allow-ssh",
+            "source_ranges": [
+              "0.0.0.0/0"
+            ],
+            "source_service_accounts": [],
+            "source_tags": [],
+            "target_service_accounts": [],
+            "target_tags": [
+              "ssh"
+            ],
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "google_compute_network.vpc"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_global_address",
+      "name": "private_ip_address",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google-beta\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "address": "10.30.0.0",
+            "address_type": "INTERNAL",
+            "creation_timestamp": "2020-12-11T01:21:48.469-08:00",
+            "description": "",
+            "id": "projects/coastal-bloom-277007/global/addresses/flaskapp-production-private-ip-address",
+            "ip_version": "",
+            "label_fingerprint": "42WmSpB8rSM=",
+            "labels": {},
+            "name": "flaskapp-production-private-ip-address",
+            "network": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/networks/flaskapp-production-vpc",
+            "prefix_length": 16,
+            "project": "coastal-bloom-277007",
+            "purpose": "VPC_PEERING",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/addresses/flaskapp-production-private-ip-address",
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_network.vpc"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_global_forwarding_rule",
+      "name": "global_forwarding_rule",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "description": "",
+            "id": "projects/coastal-bloom-277007/global/forwardingRules/flaskapp-production-global-forwarding-rule",
+            "ip_address": "35.241.10.7",
+            "ip_protocol": "TCP",
+            "ip_version": "",
+            "load_balancing_scheme": "EXTERNAL",
+            "metadata_filters": [],
+            "name": "flaskapp-production-global-forwarding-rule",
+            "port_range": "80-80",
+            "project": "coastal-bloom-277007",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/forwardingRules/flaskapp-production-global-forwarding-rule",
+            "target": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/targetHttpProxies/flaskapp-production-proxy",
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_backend_service.backend_service",
+            "google_compute_health_check.healthcheck",
+            "google_compute_instance.web_private_1",
+            "google_compute_instance_group.web_private_group",
+            "google_compute_network.vpc",
+            "google_compute_subnetwork.private_subnet_1",
+            "google_compute_target_http_proxy.target_http_proxy",
+            "google_compute_url_map.url_map"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_health_check",
+      "name": "healthcheck",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "check_interval_sec": 10,
+            "creation_timestamp": "2020-12-11T01:21:24.970-08:00",
+            "description": "",
+            "grpc_health_check": [],
+            "healthy_threshold": 2,
+            "http2_health_check": [],
+            "http_health_check": [
+              {
+                "host": "",
+                "port": 80,
+                "port_name": "",
+                "port_specification": "",
+                "proxy_header": "NONE",
+                "request_path": "/",
+                "response": ""
+              }
+            ],
+            "https_health_check": [],
+            "id": "projects/coastal-bloom-277007/global/healthChecks/flaskapp-production-healthcheck",
+            "name": "flaskapp-production-healthcheck",
+            "project": "coastal-bloom-277007",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/healthChecks/flaskapp-production-healthcheck",
+            "ssl_health_check": [],
+            "tcp_health_check": [],
+            "timeout_sec": 10,
+            "timeouts": null,
+            "type": "HTTP",
+            "unhealthy_threshold": 2
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH19"
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_instance",
+      "name": "web_private_1",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 6,
+          "attributes": {
+            "allow_stopping_for_update": null,
+            "attached_disk": [],
+            "boot_disk": [
+              {
+                "auto_delete": true,
+                "device_name": "persistent-disk-0",
+                "disk_encryption_key_raw": "",
+                "disk_encryption_key_sha256": "",
+                "initialize_params": [
+                  {
+                    "image": "https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/ubuntu-1804-bionic-v20201123",
+                    "labels": {},
+                    "size": 10,
+                    "type": "pd-standard"
+                  }
+                ],
+                "kms_key_self_link": "",
+                "mode": "READ_WRITE",
+                "source": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/zones/us-central1-b/disks/flaskapp-production-vm-1"
+              }
+            ],
+            "can_ip_forward": false,
+            "cpu_platform": "Intel Haswell",
+            "current_status": "RUNNING",
+            "deletion_protection": false,
+            "description": "",
+            "desired_status": null,
+            "enable_display": false,
+            "guest_accelerator": [],
+            "hostname": "flaskapp-production-vm1.test",
+            "id": "projects/coastal-bloom-277007/zones/us-central1-b/instances/flaskapp-production-vm-1",
+            "instance_id": "2998274005305033940",
+            "label_fingerprint": "42WmSpB8rSM=",
+            "labels": {},
+            "machine_type": "e2-medium",
+            "metadata": {},
+            "metadata_fingerprint": "ZEhgqhea_ss=",
+            "metadata_startup_script": "sudo apt-get update; sudo apt-get install -yq build-essential python-pip rsync; pip install flask; sudo apt install mysql-client; sudo apt-get install python-dev default-libmysqlclient-dev libssl-dev; pip install --user flask-mysqldb",
+            "min_cpu_platform": "",
+            "name": "flaskapp-production-vm-1",
+            "network_interface": [
+              {
+                "access_config": [],
+                "alias_ip_range": [],
+                "name": "nic0",
+                "network": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/networks/flaskapp-production-vpc",
+                "network_ip": "10.128.0.2",
+                "subnetwork": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/regions/us-central1/subnetworks/flaskapp-production-private-subnet-1",
+                "subnetwork_project": "coastal-bloom-277007"
+              }
+            ],
+            "project": "coastal-bloom-277007",
+            "resource_policies": [],
+            "scheduling": [
+              {
+                "automatic_restart": true,
+                "node_affinities": [],
+                "on_host_maintenance": "MIGRATE",
+                "preemptible": false
+              }
+            ],
+            "scratch_disk": [],
+            "self_link": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/zones/us-central1-b/instances/flaskapp-production-vm-1",
+            "service_account": [],
+            "shielded_instance_config": [
+              {
+                "enable_integrity_monitoring": true,
+                "enable_secure_boot": false,
+                "enable_vtpm": true
+              }
+            ],
+            "tags": [
+              "http",
+              "ssh"
+            ],
+            "tags_fingerprint": "7XLBdwIeS7E=",
+            "timeouts": null,
+            "zone": "us-central1-b"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiNiJ9",
+          "dependencies": [
+            "google_compute_network.vpc",
+            "google_compute_subnetwork.private_subnet_1"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_instance_group",
+      "name": "web_private_group",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 2,
+          "attributes": {
+            "description": "Web servers instance group",
+            "id": "projects/coastal-bloom-277007/zones/us-central1-b/instanceGroups/flaskapp-production-vm-group",
+            "instances": [
+              "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/zones/us-central1-b/instances/flaskapp-production-vm-1"
+            ],
+            "name": "flaskapp-production-vm-group",
+            "named_port": [
+              {
+                "name": "http",
+                "port": 80
+              }
+            ],
+            "network": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/networks/flaskapp-production-vpc",
+            "project": "coastal-bloom-277007",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/zones/us-central1-b/instanceGroups/flaskapp-production-vm-group",
+            "size": 1,
+            "timeouts": null,
+            "zone": "us-central1-b"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozNjAwMDAwMDAwMDAsImRlbGV0ZSI6MzYwMDAwMDAwMDAwLCJ1cGRhdGUiOjM2MDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMiJ9",
+          "dependencies": [
+            "google_compute_instance.web_private_1",
+            "google_compute_network.vpc",
+            "google_compute_subnetwork.private_subnet_1"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_network",
+      "name": "vpc",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "auto_create_subnetworks": false,
+            "delete_default_routes_on_create": false,
+            "description": "",
+            "gateway_ipv4": "",
+            "id": "projects/coastal-bloom-277007/global/networks/flaskapp-production-vpc",
+            "mtu": 0,
+            "name": "flaskapp-production-vpc",
+            "project": "coastal-bloom-277007",
+            "routing_mode": "GLOBAL",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/networks/flaskapp-production-vpc",
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH19"
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_router",
+      "name": "nat-router",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "bgp": [],
+            "creation_timestamp": "2020-12-11T01:21:48.343-08:00",
+            "description": "",
+            "id": "projects/coastal-bloom-277007/regions/us-central1/routers/flaskapp-production-nat-router",
+            "name": "flaskapp-production-nat-router",
+            "network": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/networks/flaskapp-production-vpc",
+            "project": "coastal-bloom-277007",
+            "region": "us-central1",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/regions/us-central1/routers/flaskapp-production-nat-router",
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_network.vpc"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_router_nat",
+      "name": "nat-gateway",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "drain_nat_ips": [],
+            "icmp_idle_timeout_sec": 30,
+            "id": "coastal-bloom-277007/us-central1/flaskapp-production-nat-router/flaskapp-nat-gateway",
+            "log_config": [],
+            "min_ports_per_vm": 0,
+            "name": "flaskapp-nat-gateway",
+            "nat_ip_allocate_option": "MANUAL_ONLY",
+            "nat_ips": [
+              "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/regions/us-central1/addresses/flaskapp-production-nat-ip"
+            ],
+            "project": "coastal-bloom-277007",
+            "region": null,
+            "router": "flaskapp-production-nat-router",
+            "source_subnetwork_ip_ranges_to_nat": "ALL_SUBNETWORKS_ALL_IP_RANGES",
+            "subnetwork": [],
+            "tcp_established_idle_timeout_sec": 1200,
+            "tcp_transitory_idle_timeout_sec": 30,
+            "timeouts": null,
+            "udp_idle_timeout_sec": 30
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6NjAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_address.nat_ip",
+            "google_compute_network.vpc",
+            "google_compute_router.nat-router"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_subnetwork",
+      "name": "private_subnet_1",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google-beta\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "creation_timestamp": "2020-12-11T01:21:49.862-08:00",
+            "description": "",
+            "fingerprint": null,
+            "gateway_address": "10.128.0.1",
+            "id": "projects/coastal-bloom-277007/regions/us-central1/subnetworks/flaskapp-production-private-subnet-1",
+            "ip_cidr_range": "10.128.0.0/20",
+            "log_config": [],
+            "name": "flaskapp-production-private-subnet-1",
+            "network": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/networks/flaskapp-production-vpc",
+            "private_ip_google_access": false,
+            "private_ipv6_google_access": "DISABLE_GOOGLE_ACCESS",
+            "project": "coastal-bloom-277007",
+            "purpose": "PRIVATE",
+            "region": "us-central1",
+            "role": "",
+            "secondary_ip_range": [],
+            "self_link": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/regions/us-central1/subnetworks/flaskapp-production-private-subnet-1",
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozNjAwMDAwMDAwMDAsImRlbGV0ZSI6MzYwMDAwMDAwMDAwLCJ1cGRhdGUiOjM2MDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_network.vpc"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_target_http_proxy",
+      "name": "target_http_proxy",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "creation_timestamp": "2020-12-11T01:22:46.443-08:00",
+            "description": "",
+            "id": "projects/coastal-bloom-277007/global/targetHttpProxies/flaskapp-production-proxy",
+            "name": "flaskapp-production-proxy",
+            "project": "coastal-bloom-277007",
+            "proxy_id": 7859891867268056201,
+            "self_link": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/targetHttpProxies/flaskapp-production-proxy",
+            "timeouts": null,
+            "url_map": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/urlMaps/flaskapp-production-load-balancer"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_backend_service.backend_service",
+            "google_compute_health_check.healthcheck",
+            "google_compute_instance.web_private_1",
+            "google_compute_instance_group.web_private_group",
+            "google_compute_network.vpc",
+            "google_compute_subnetwork.private_subnet_1",
+            "google_compute_url_map.url_map"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_compute_url_map",
+      "name": "url_map",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "creation_timestamp": "2020-12-11T01:22:44.127-08:00",
+            "default_route_action": [],
+            "default_service": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/backendServices/flaskapp-production-backend-service",
+            "default_url_redirect": [],
+            "description": "",
+            "fingerprint": "BfAYk-KCZew=",
+            "header_action": [],
+            "host_rule": [],
+            "id": "projects/coastal-bloom-277007/global/urlMaps/flaskapp-production-load-balancer",
+            "map_id": 3745106910420829323,
+            "name": "flaskapp-production-load-balancer",
+            "path_matcher": [],
+            "project": "coastal-bloom-277007",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/coastal-bloom-277007/global/urlMaps/flaskapp-production-load-balancer",
+            "test": [],
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_backend_service.backend_service",
+            "google_compute_health_check.healthcheck",
+            "google_compute_instance.web_private_1",
+            "google_compute_instance_group.web_private_group",
+            "google_compute_network.vpc",
+            "google_compute_subnetwork.private_subnet_1"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_service_networking_connection",
+      "name": "private_vpc_connection",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google-beta\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "projects%2Fcoastal-bloom-277007%2Fglobal%2Fnetworks%2Fflaskapp-production-vpc:servicenetworking.googleapis.com",
+            "network": "projects/coastal-bloom-277007/global/networks/flaskapp-production-vpc",
+            "peering": "servicenetworking-googleapis-com",
+            "reserved_peering_ranges": [
+              "flaskapp-production-private-ip-address"
+            ],
+            "service": "servicenetworking.googleapis.com",
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6NjAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_global_address.private_ip_address",
+            "google_compute_network.vpc"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_sql_database_instance",
+      "name": "my_sql",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "connection_name": "coastal-bloom-277007:us-central1:flaskapp-production-db-30b8f222",
+            "database_version": "MYSQL_5_7",
+            "deletion_protection": true,
+            "first_ip_address": "10.30.0.3",
+            "id": "flaskapp-production-db-30b8f222",
+            "ip_address": [
+              {
+                "ip_address": "10.30.0.3",
+                "time_to_retire": "",
+                "type": "PRIVATE"
+              }
+            ],
+            "master_instance_name": "",
+            "name": "flaskapp-production-db-30b8f222",
+            "private_ip_address": "10.30.0.3",
+            "project": "coastal-bloom-277007",
+            "public_ip_address": "",
+            "region": "us-central1",
+            "replica_configuration": [],
+            "root_password": null,
+            "self_link": "https://sqladmin.googleapis.com/sql/v1beta4/projects/coastal-bloom-277007/instances/flaskapp-production-db-30b8f222",
+            "server_ca_cert": [
+              {
+                "cert": "-----BEGIN CERTIFICATE-----\nMIIDfzCCAmegAwIBAgIBADANBgkqhkiG9w0BAQsFADB3MS0wKwYDVQQuEyRkNDAw\nMjE5ZC1iNjU5LTRiNGQtYTczMS03NzFlOWQ2MzcwNDYxIzAhBgNVBAMTGkdvb2ds\nZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUsIEluYzELMAkG\nA1UEBhMCVVMwHhcNMjAxMjExMDk1NzM5WhcNMzAxMjA5MDk1ODM5WjB3MS0wKwYD\nVQQuEyRkNDAwMjE5ZC1iNjU5LTRiNGQtYTczMS03NzFlOWQ2MzcwNDYxIzAhBgNV\nBAMTGkdvb2dsZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUs\nIEluYzELMAkGA1UEBhMCVVMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB\nAQCTALF9O42bSWOG6fSY+ML3dy24XamgGzRt3fy4g8p/XGCICj0WcZnEChzFn29x\nEgKH6hNUXzGqXI/O2QeVm3cc6e+VIbglc+qZW3rEACyJ1fua+KpKUQ6zbRHFFsPc\nijvZdrEccbKPVooWDsbbOW54M7eunGysyX3rWmbPTJ+N2R0bAKLqzArLN2Q9WWzI\n/IMivjFT9qdygyuMD4BYsfQNSIsLEsrljDxzw1gFA3gtTSH3G0D6fT4NAEd7V4AW\nQWe4E2gDRCiE4I7O4gfVtSUEftg8jM1RNmH3WE3nmikR8ZUL5B4ppZZYA0M3gISj\nw7eR8CHm9zIHf0g/ph/6nnkvAgMBAAGjFjAUMBIGA1UdEwEB/wQIMAYBAf8CAQAw\nDQYJKoZIhvcNAQELBQADggEBAHfBKW3CEztT1Jfj1u+7EyjtxE94C46yDqfbwzJU\nUk4ILsfqdDY72VgeGQHe1o9sBAfeju3aNloN2HFaBRSrEWd8ytyxgtSmo8bnPaR4\na6oPB79S3URWoMJ9/MWZyon/mQbz3daHTCNJmZyPkKTQXLFnqmYFoK+zaYIeBPKU\nLeVgxrAYGcJ84d2kenEXrm01cKxZbDpbD58Pdo6m0CvAAYxdMat6dIXtZvVuapYA\nSlpu/nj5PNsP5uVTb4FaekP7fDwWR3a1s5uIT6Xld/r5n5bmfjesToJqHyTKI58R\nQn2iXLFnYCQofAj2WugAzq+g3gpN04xwjfvSIFxMhLVFd/o=\n-----END CERTIFICATE-----",
+                "common_name": "C=US,O=Google\\, Inc,CN=Google Cloud SQL Server CA,dnQualifier=d400219d-b659-4b4d-a731-771e9d637046",
+                "create_time": "2020-12-11T09:57:39.725Z",
+                "expiration_time": "2030-12-09T09:58:39.725Z",
+                "sha1_fingerprint": "189e38f34be56976ab753cd4b6c0e8a83cf32ec1"
+              }
+            ],
+            "service_account_email_address": "p942588210672-vtlnu6@gcp-sa-cloud-sql.iam.gserviceaccount.com",
+            "settings": [
+              {
+                "activation_policy": "ALWAYS",
+                "authorized_gae_applications": null,
+                "availability_type": "",
+                "backup_configuration": [
+                  {
+                    "binary_log_enabled": true,
+                    "enabled": true,
+                    "location": "",
+                    "point_in_time_recovery_enabled": false,
+                    "start_time": "00:00"
+                  }
+                ],
+                "crash_safe_replication": false,
+                "database_flags": [
+                  {
+                    "name": "log_bin_trust_function_creators",
+                    "value": "on"
+                  }
+                ],
+                "disk_autoresize": true,
+                "disk_size": 10,
+                "disk_type": "PD_SSD",
+                "ip_configuration": [
+                  {
+                    "authorized_networks": [],
+                    "ipv4_enabled": false,
+                    "private_network": "projects/coastal-bloom-277007/global/networks/flaskapp-production-vpc",
+                    "require_ssl": false
+                  }
+                ],
+                "location_preference": [
+                  {
+                    "follow_gae_application": "",
+                    "zone": "us-central1-b"
+                  }
+                ],
+                "maintenance_window": [
+                  {
+                    "day": 7,
+                    "hour": 3,
+                    "update_track": ""
+                  }
+                ],
+                "pricing_plan": "PER_USE",
+                "replication_type": "SYNCHRONOUS",
+                "tier": "db-f1-micro",
+                "user_labels": null,
+                "version": 1
+              }
+            ],
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_compute_network.vpc",
+            "google_service_networking_connection.private_vpc_connection",
+            "random_id.instance_id"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "google_sql_user",
+      "name": "my-sql",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "deletion_policy": null,
+            "host": "%",
+            "id": "dbadmin/%/flaskapp-production-db-30b8f222",
+            "instance": "flaskapp-production-db-30b8f222",
+            "name": "dbadmin",
+            "password": "",
+            "project": "coastal-bloom-277007",
+            "timeouts": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6NjAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "google_compute_network.vpc",
+            "google_service_networking_connection.private_vpc_connection",
+            "google_sql_database_instance.my_sql",
+            "random_id.instance_id"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "random_id",
+      "name": "instance_id",
+      "provider": "provider[\"registry.terraform.io/hashicorp/random\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "b64_std": "MLjyIg==",
+            "b64_url": "MLjyIg",
+            "byte_length": 4,
+            "dec": "817426978",
+            "hex": "30b8f222",
+            "id": "MLjyIg",
+            "keepers": null,
+            "prefix": null
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "random_id",
+      "name": "user_password",
+      "provider": "provider[\"registry.terraform.io/hashicorp/random\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "b64_std": "PDZ+73oRFYI=",
+            "b64_url": "PDZ-73oRFYI",
+            "byte_length": 8,
+            "dec": "4338794858028275074",
+            "hex": "3c367eef7a111582",
+            "id": "PDZ-73oRFYI",
+            "keepers": null,
+            "prefix": null
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    }
+  ]
+}
