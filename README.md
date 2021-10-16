@@ -1,3 +1,10 @@
+# Infrastructure Management using Terraform IAC on Google Cloud Platform to run a Python Flask App using a private MySQL instance database
+
+Network Diagram-
+![](https://github.com/rafatmunshi/Infrastructure-Management-using-Terraform/raw/master/1.png)
+Network Diagram-
+![](https://github.com/rafatmunshi/Infrastructure-Management-using-Terraform/raw/master/2.png)
+
 To run this code-
 1. Install Terraform in your system
 2. Run terraform init for the Terraform folder. That would create the .terraform folder
